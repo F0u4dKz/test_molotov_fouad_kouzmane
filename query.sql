@@ -1,0 +1,29 @@
+WITH subscribed AS (
+
+SELECT 
+    USER_ID
+FROM subscriptions
+WHERE 
+    PRODUCT_NAME = "Molotov Extra"
+AND DATE(SUBSCRIPTION_BEGIN_DATE) > '2023-04-25'
+
+),
+
+users AS (
+
+SELECT 
+    DISTINCT ID
+FROM users 
+WHERE 
+    DATE(BIRTHDAY) >= '1994-04-25'
+)
+
+SELECT 
+    USER_ID 
+FROM WATCH w 
+WHERE 
+    DEVICE_TYPE = 'phone'
+AND PROGRAM_KIND = 'Films'
+AND DURATION > 7200 
+INNER JOIN users u ON u.ID = w.USER_ID
+INNER JOIN subscribed s on s.USER_ID = u.ID 
